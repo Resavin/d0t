@@ -1,8 +1,9 @@
 #!/bin/bash
-ln -sf ./awesome ~/.config/awesome
-ln -sf ./alacritty ~/.config/alacritty
-ln -sf ./fish ~/.config/fish
-ln -sf ./picom ~/.config/picom
-ln -sf ./rofi ~/.config/rofi
-ln -sf ./starship.toml ~/.config/starship.toml
+
+ln -s ~/d0t/awesome ~/.config/awesome
+ln -s ~/d0t/alacritty ~/.config/alacritty
+ln -s ~/d0t/fish ~/.config/fish
+ln -s ~/d0t/picom ~/.config/picom
+ln -s ~/d0t/rofi ~/.config/rofi
+ln -s ~/d0t/starship.toml ~/.config/starship.toml
 

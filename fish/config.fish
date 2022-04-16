@@ -37,7 +37,8 @@ end
 
 ## Starship prompt
 if status --is-interactive
-   source ("/usr/bin/starship" init fish --print-full-init | psub)
+#    source ("/usr/bin/starship" init fish --print-full-init | psub)
+    starship init fish | source
 end
 
 ## Advanced command-not-found hook
@@ -133,7 +134,14 @@ alias gitpkg='pacman -Q | grep -i "\-git" | wc -l'			# List amount of -git packa
 #customAliases
 alias vim='nvim'
 alias pac='sudo pacman'
-alias fd='/home/inaba/customScripts/fd'
+alias fd='~/customScripts/fd'
+alias wpp="~/customScripts/wpp.sh"
+alias br="~/customScripts/bright.sh"
+alias update-grub="~/customScripts/grub.sh"
+alias off="~/customScripts/offnutEcran.sh"
+alias wpa="~/customScripts/wpa"
+alias lvim="~/.local/bin/lvim"
+
 
 #one-letter-aliasses (qberik)
 alias z='zathura'

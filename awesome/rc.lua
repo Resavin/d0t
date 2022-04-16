@@ -258,7 +258,7 @@ awful.keyboard.append_global_keybindings({
               {description = "run nautilus", group = "launcher"}),
 
     awful.key({ modkey },            "b",     function ()
-        awful.util.spawn("google-chrome-stable") end,
+        awful.util.spawn("chromium") end,
               {description = "run privacy", group = "launcher"}),
 
     awful.key({ modkey, "Shift" },  "s",     function ()
