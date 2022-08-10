@@ -1,11 +1,12 @@
 ## FIRST LINE/ROW: Info & Status
+
+command_timeout = 30
 # First param ─┌
 [username]
 format = " [╭─$user]($style)@"
 show_always = true
 style_root = "bold red"
 style_user = "bold red"
-
 # Second param
 [hostname]
 disabled = false
@@ -22,16 +23,17 @@ truncation_length = 0
 truncation_symbol = "repo: "
  
 # Fourth param смайлик мага
-#[sudo]
-#disabled = false
+[sudo]
+disabled = false
+symbol = "sudo "
 
 # Before all the version info (python, nodejs, php, etc.)
-[git_status]
-ahead = "⇡${count}"
-behind = "⇣${count}"
-deleted = "x"
-diverged = "⇕⇡${ahead_count}⇣${behind_count}"
-style = "white"
+#[git_status]
+#ahead = "⇡${count}"
+#behind = "⇣${count}"
+#deleted = "x"
+#diverged = "⇕⇡${ahead_count}⇣${behind_count}"
+#style = "white"
 
 # Last param in the first line/row
 [cmd_duration]
@@ -76,12 +78,12 @@ error_symbol = " [×](bold red)"
 success_symbol = " [╰─λ](bold red)"
 
 # SYMBOLS
-[status]
-disabled = false
-format = '[\[$symbol$status_common_meaning$status_signal_name$status_maybe_int\]]($style)'
-map_symbol = true
-pipestatus = true
-symbol = "🔴"
+#[status]
+#disabled = false
+#format = '[\[$symbol$status_common_meaning$status_signal_name$status_maybe_int\]]($style)'
+#map_symbol = true
+#pipestatus = true
+#symbol = "🔴"
 
 [aws]
 symbol = " "
@@ -145,3 +147,4 @@ symbol = " "
 
 [swift]
 symbol = "ﯣ "
+

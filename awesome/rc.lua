@@ -257,6 +257,10 @@ awful.keyboard.append_global_keybindings({
         awful.util.spawn("nautilus") end,
               {description = "run nautilus", group = "launcher"}),
 
+    awful.key({ modkey },            "a",     function ()
+        awful.util.spawn("subl") end,
+              {description = "run text", group = "launcher"}),
+
     awful.key({ modkey },            "b",     function ()
         awful.util.spawn("chromium") end,
               {description = "run privacy", group = "launcher"}),
@@ -272,6 +276,35 @@ awful.keyboard.append_global_keybindings({
     awful.key({ modkey, "Shift" },  "e",     function ()
         awful.util.spawn("nwgbar") end,
               {description = "nwgbar (restart, shutdown)", group = "launcher"}),
+
+    awful.key({ },  "XF86MonBrightnessUp",     function ()  
+        awful.util.spawn("sudo light -A 10") end,
+              {description = "brightness up", group = "laptop"}),
+
+    awful.key({ },  "XF86MonBrightnessDown",     function ()  
+        awful.util.spawn("sudo light -U 10") end,
+              {description = "brightness down", group = "laptop"}),
+
+  awful.key({ },  "XF86AudioMute",     function ()  
+        awful.util.spawn("pactl set-sink-mute @DEFAULT_SINK@ toggle") end,
+              {description = "mute audio", group = "laptop"}),
+awful.key({ },  "XF86AudioMicMute",     function ()  
+        awful.util.spawn("pactl set-source-mute @DEFAULT_SOURCE@ toggle") end,
+              {description = "mute mic", group = "laptop"}),
+awful.key({ },  "XF86AudioRaiseVolume",     function ()  
+        awful.util.spawn("pactl set-sink-volume @DEFAULT_SINK@ +10%") end,
+              {description = "volume raise", group = "laptop"}),
+awful.key({ },  "XF86AudioLowerVolume",     function ()  
+        awful.util.spawn("pactl set-sink-volume @DEFAULT_SINK@ -10%") end,
+              {description = "volume lower", group = "laptop"}),
+
+    awful.key({ modkey, "Shift" },  "q",     function ()
+      awful.spawn.easy_async_with_shell("~/customScripts/offnutEcran.sh") end,
+      -- awful.spawn.easy_async_with_shell("betterlockscreen -l") end,
+              {description = "offnutEcran", group = "scripts"}),
+    awful.key({ modkey, "Shift" },  "w",     function ()
+      awful.spawn.easy_async_with_shell("~/customScripts/wpa") end,
+              {description = "reload wpa_supplicant", group = "scripts"}),
 
     --wibox
     awful.key({ modkey }, ";", function ()
@@ -313,6 +346,15 @@ awful.keyboard.append_global_keybindings({
             end
         end,
         {description = "go back", group = "client"}),
+    awful.key({"Mod4",          }, "Tab",
+        function ()
+            awful.client.focus.history.previous()
+            if client.focus then
+                client.focus:raise()
+            end
+        end,
+        {description = "go back", group = "client"}),
+ 
     awful.key({ modkey, "Control" }, "j", function () awful.screen.focus_relative( 1) end,
               {description = "focus the next screen", group = "screen"}),
     awful.key({ modkey, "Control" }, "k", function () awful.screen.focus_relative(-1) end,
@@ -334,7 +376,7 @@ awful.keyboard.append_global_keybindings({
               {description = "swap with next client by index", group = "client"}),
     awful.key({ modkey,  "Shift"  }, "Left", function () awful.client.swap.byidx( -1)    end,
               {description = "swap with previous client by index", group = "client"}),
-    awful.key({ modkey,           }, "u", awful.client.urgent.jumpto,
+    awful.key({ modkey,    "Shift"       }, "w", awful.client.urgent.jumpto,
               {description = "jump to urgent client", group = "client"}),
     awful.key({ "Mod1"    },  "Right",     function () awful.tag.incmwfact( 0.05)          end,
               {description = "increase master width factor", group = "layout"}),
@@ -461,7 +503,8 @@ client.connect_signal("request::default_keybindings", function()
         awful.key({ modkey}, "q",      function (c) c:kill()                         end,
                 {description = "close", group = "client"}),
 
-        awful.key({ modkey,         }, "space",  awful.client.floating.toggle, function (c) awful.titlebar.toggle(c) end,
+        awful.key({ modkey,         }, "space",  awful.client.floating.toggle, 
+            -- function (c) awful.titlebar.toggle(c) end,
                 {description = "toggle floating and titlebar", group = "client"}),
 
         -- awful.key({ modkey, }, 'space', function (c) awful.titlebar.toggle(c) end,
@@ -484,11 +527,13 @@ client.connect_signal("request::default_keybindings", function()
             end ,
             {description = "(un)maximize", group = "client"}),
 
-        awful.key({ modkey, "Shift"  }, "Up",   function (c) c:relative_move( 20,  20, -40, -40) end,
-            {description = "Increase size in floating", group = "client"}),
-        awful.key({ modkey, "Shift"   }, "Down",  function (c) c:relative_move(-20, -20,  40,  40) end,
-            {description = "Decrease size in floating", group = "client"}),
-        
+        -- if (awful.layout.get == 0) then
+            awful.key({ modkey, "Shift"  }, "Up",   function (c) c:relative_move( 20,  20, -40, -40) end,
+                {description = "Increase size in floating", group = "client"}),
+            awful.key({ modkey, "Shift"   }, "Down",  function (c) c:relative_move(-20, -20,  40,  40) end,
+                {description = "Decrease size in floating", group = "client"}),
+        -- end
+            
 
     })
 end)
@@ -652,21 +697,8 @@ function check_resize_client(c)
     end
 end
 
-client.connect_signal("property::size", check_resize_client)
-client.connect_signal("property::position", check_resize_client)
-client.connect_signal("manage", function(c)
-    if is_terminal(c) then
-        return
-    end
-    local parent_client=awful.client.focus.history.get(c.screen, 1)
-    if parent_client and is_terminal(parent_client) then
-        parent_client.child_resize=c
-        c.floating=true
-        copy_size(c, parent_client)
-    end
-end)
-
---alternative Version
+-- client.connect_signal("property::size", check_resize_client)
+-- client.connect_signal("property::position", check_resize_client)
 -- client.connect_signal("manage", function(c)
 --     if is_terminal(c) then
 --         return
@@ -674,14 +706,27 @@ end)
 --     local parent_client=awful.client.focus.history.get(c.screen, 1)
 --     if parent_client and is_terminal(parent_client) then
 --         parent_client.child_resize=c
---         parent_client.minimized = true
-
---         c:connect_signal("unmanage", function() parent_client.minimized = false end)
-        
---         -- c.floating=true
+--         c.floating=true
 --         copy_size(c, parent_client)
 --     end
 -- end)
+--alternative Version
+client.connect_signal("manage", function(c)
+    if is_terminal(c) then
+        return
+    end
+    local parent_client=awful.client.focus.history.get(c.screen, 1)
+    if parent_client and is_terminal(parent_client) then
+        parent_client.child_resize=c
+        parent_client.minimized = true
+
+        c:connect_signal("unmanage", function() parent_client.minimized = false end)
+        
+        c.floating=true
+        c.floating=false
+        copy_size(c, parent_client)
+    end
+end)
 
 
 
@@ -723,9 +768,9 @@ local t = awful.screen.focused().selected_tag
 end)
 
 --Autostart
-awful.spawn.with_shell("picom")
+awful.spawn.with_shell("picom --experimental-backends &")
 -- awful.spawn.with_shell("~/customScripts/wpp")
 awful.spawn.with_shell("flameshot")
--- awful.spawn.with_shell("nitrogen --restore")
+awful.spawn.with_shell("nitrogen --restore")
 -- awful.spawn.with_shell("redshift")
 
