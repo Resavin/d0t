@@ -134,7 +134,6 @@ alias big="expac -H M '%m\t%n' | sort -h | nl"              # Sort installed pac
 alias gitpkg='pacman -Q | grep -i "\-git" | wc -l'			# List amount of -git packages
 
 #customAliases
-# alias vim='nvim'
 alias pac='sudo pacman'
 alias fd='~/customScripts/fd'
 alias wpp="~/customScripts/wpp.sh"
@@ -148,12 +147,13 @@ alias wgon="sudo systemctl start wg-quick@Resavin_linux"
 
 
 #one-letter-aliasses (qberik)
+alias unrar='unar' 
 alias z='zathura'
 alias p='python3'
 alias f='feh'
 
 alias v='vim'
-#alias vim='nvim'
+alias vim='nvim'
 
 # Get fastest mirrors
 alias mirror="sudo reflector -f 30 -l 30 --number 10 --verbose --save /etc/pacman.d/mirrorlist"

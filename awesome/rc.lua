@@ -234,8 +234,8 @@ awful.keyboard.append_global_keybindings({
                   }
               end,
               {description = "lua execute prompt", group = "awesome"}),
-    -- awful.key({ modkey }, "p", function() menubar.show() end,
-    --       {description = "show the menubar", group = "launcher"}),    
+    awful.key({ modkey }, "p", function() menubar.show() end,
+          {description = "show the menubar", group = "launcher"}),    
     awful.key({ modkey },            "w",     function ()    
         awful.util.spawn("rofi -show window") end,
               {description = "window rofi", group = "launcher"}),
