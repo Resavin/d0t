@@ -20,6 +20,13 @@ if test -f ~/.fish_profile
   source ~/.fish_profile
 end
 
+#Add DOOOOOOOOOOOOOOM
+if test -d ~/.emacs.d/bin
+    if not contains -- ~/.emacs.d/bin $PATH
+        set -p PATH ~/.emacs.d/bin
+    end
+end
+
 # Add ~/.local/bin to PATH
 if test -d ~/.local/bin
     if not contains -- ~/.local/bin $PATH
@@ -34,6 +41,12 @@ if test -d ~/Applications/depot_tools
     end
 end
 
+# Add customScripts to PATH
+if test -d ~/customScripts
+    if not contains -- ~/customScripts $PATH
+        set -p PATH ~/customScripts
+    end
+end
 
 # Starship prompt
 if status --is-interactive
@@ -75,7 +88,7 @@ end
 
 # Fish command history
 function history
-    builtin history --show-time='%F %T '
+    builtin history --show-time='%F %T ' | tac
 end
 
 function backup --argument filename
@@ -106,7 +119,7 @@ alias l.="exa -a | egrep '^\.'"                                     # show only 
 alias ip="ip -color"
 
 # Replace some more things with better alternatives
-alias cat='bat --style header --style rules --style snip --style changes --style header'
+alias cat='bat --style header --style rule --style snip --style changes --style header'
 [ ! -x /usr/bin/yay ] && [ -x /usr/bin/paru ] && alias yay='paru'
 
 # Common use
@@ -144,7 +157,7 @@ alias wpa="~/customScripts/wpa"
 alias lvim="~/.local/bin/lvim"
 alias wgoff="sudo systemctl stop wg-quick@Resavin_linux"
 alias wgon="sudo systemctl start wg-quick@Resavin_linux"
-
+alias "gcd"="git clone --depth 1"
 
 #one-letter-aliasses (qberik)
 alias unrar='unar' 
