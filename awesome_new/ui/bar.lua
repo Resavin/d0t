@@ -4,6 +4,8 @@ local awful = require("awful")
 local wibox = require("wibox")
 local beautiful = require("beautiful")
 local dpi = beautiful.xresources.apply_dpi
+local lain = require("lain")
+-- local mybattery = lain.widget.bat()
 ----- Bar -----
 
 
@@ -114,7 +116,7 @@ screen.connect_signal("request::desktop_decoration", function(s)
 	}
 
 	awesome.connect_signal("signal::volume", function(vol,mute)
-
+		-- os.execute("sleep " .. tonumber(5)) всё равно уведомление об ошибке
 		volume.container.vol_layout.value.markup = "<span foreground='" .. beautiful.blue .. "'>" .. vol .. "%</span>"
 
 		if mute or vol == 0 then
@@ -127,6 +129,17 @@ screen.connect_signal("request::desktop_decoration", function(s)
 			else
 				volume.container.vol_layout.vol_icon.markup = "<span foreground='" .. beautiful.blue .. "'></span>"
 			end
+		end
+	end)
+	local mic = wibox.widget {
+		widget = wibox.widget.textbox,
+		text = 'yes',
+	}
+	awesome.connect_signal("signal::mic", function()
+		if mic.text == 'yes' then
+			mic.text = 'no'
+		else
+			mic.text = 'yes'
 		end
 	end)
 
@@ -254,7 +267,7 @@ screen.connect_signal("request::desktop_decoration", function(s)
 			{
 				-- wifi,
 				ip_widget,
-				volume,
+				-- volume,
 				bright,
 				spacing = dpi(10),
 				layout = wibox.layout.fixed.horizontal,
@@ -284,7 +297,7 @@ screen.connect_signal("request::desktop_decoration", function(s)
 		widget_template = {
 			{
 				id = 'text_role',
-				forced_width = dpi(200),
+				forced_width = dpi(300),
 				widget = wibox.widget.textbox,
 			},
 			margins = dpi(4),
@@ -401,7 +414,7 @@ screen.connect_signal("request::desktop_decoration", function(s)
 	}
 
 	-- simple widgets
-	local battery = awful.widget.watch('bash -c "acpi | awk \'{print $4, $5}\'"', 15)
+	local battery = awful.widget.watch('bash -c "acpi | awk \'{print $4, $5}\'"', 60)
 	local mykeyboardlayout = awful.widget.keyboardlayout()
 
 
@@ -421,7 +434,10 @@ screen.connect_signal("request::desktop_decoration", function(s)
 					widget = wibox.container.margin,
 				},
 				layout = wibox.layout.fixed.horizontal,
+				mic,
+				-- wibox.widget.textbox("                                              "),
 			},
+			-- task,
 			nil,
 			{
 				-- info,

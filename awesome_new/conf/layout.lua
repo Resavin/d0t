@@ -20,8 +20,9 @@ end)
 
 awful.layout.layouts = {
 	l.tile,
-	l.floating,
-	l.tile.bottom,
+	-- l.floating,
+	-- l.tile.bottom,
+    l.fair,
 }
 
 -- if awful.layout.get == l.floating then

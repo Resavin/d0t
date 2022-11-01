@@ -1,11 +1,24 @@
 local awful = require "awful"
-
+local cyclefocus = require('cyclefocus')
+-- cyclefocus.display_notifications = false
+local revelation=require("revelation")
+revelation.init()
 modkey = "Mod4"
 alt = "Mod1"
+local rmbflag = false
+
+-- local hotkeys_popup = require("awful.hotkeys_popup")
+-- Enable hotkeys help widget for VIM and other apps
+-- when client with a matching name is opened:
+-- require("awful.hotkeys_popup.keys")
+-- hotkeys_popup.hotkeys_bg = 
+-- awful.hotkeys_popup.keys.tmux.add_rules_for_terminal({ rule = { name = "no window ever has a name like this" }})
 
 awful.keyboard.append_global_keybindings({
-    awful.key({ modkey,           }, "w", function () mainmenu:show() end,
-              {description = "show main menu", group = "awesome"}),
+    -- awful.key({ modkey,           }, "s",      hotkeys_popup.show_help,
+    --           {description="show help", group="awesome"}),
+    -- awful.key({ modkey,           }, "w", function () mainmenu:show() end,
+    --           {description = "show main menu", group = "awesome"}),
     awful.key({ modkey, "Control" }, "r", awesome.restart,
               {description = "reload awesome", group = "awesome"}),
 
@@ -14,29 +27,35 @@ awful.keyboard.append_global_keybindings({
     
     awful.key({ modkey, "Shift"   }, "c", awesome.quit,
               {description = "quit awesome", group = "awesome"}),
-    awful.key({ modkey }, "x",
-              function ()
-                  awful.prompt.run {
-                    prompt       = "Run Lua code: ",
-                    textbox      = awful.screen.focused().mypromptbox.widget,
-                    exe_callback = awful.util.eval,
-                    history_path = awful.util.get_cache_dir() .. "/history_eval"
-                  }
-              end,
-              {description = "lua execute prompt", group = "awesome"}),
+    -- awful.key({ modkey }, "x",
+    --           function ()
+    --               awful.prompt.run {
+    --                 prompt       = "Run Lua code: ",
+    --                 textbox      = awful.screen.focused().mypromptbox.widget,
+    --                 exe_callback = awful.util.eval,
+    --                 history_path = awful.util.get_cache_dir() .. "/history_eval"
+    --               }
+    --           end,
+    --           {description = "lua execute prompt", group = "awesome"}),
     awful.key({ modkey,           }, "Return", function () awful.spawn(terminal) end,
               {description = "open a terminal", group = "launcher"}),
     awful.key({ modkey },            "d",     function () awful.spawn.with_shell("rofi -i -show drun -modi drun -show-icons") end,
-              {description = "run prompt", group = "launcher"}),
+              {description = "Drun prompt", group = "launcher"}),
+    -- awful.key({ modkey },            "r",     function () awful.spawn.with_shell("rofi -i -show run -modi run") end,
+    -- awful.key({ modkey },            "r",     function () awful.spawn.with_shell("fish -c \"$(rofi -dmenu -p 'Run command')\"") end,
+    awful.key({modkey}, "r",
+        -- function() awful.util.spawn("alacritty --class run_menu") end),
+        function() awful.util.spawn("xterm -c run_menu") end),
     awful.key({ modkey }, "p", function() menubar.show() end,
               {description = "show the menubar", group = "launcher"}),
     -- custom key
-    awful.key({ modkey }, "e", function() awful.spawn("pcmanfm") end,
-              {description = "open nautilus", group = "launcher"}),
-    awful.key({ modkey, "Control" }, "e", function() awful.spawn("nautilus --new-window") end,
+    awful.key({ modkey, "Control" }, "e", function() awful.spawn("pcmanfm") end,
+              {description = "open pcman", group = "launcher"}),
+    awful.key({ modkey, }, "e", function() awful.spawn("nautilus --new-window") end,
               {description = "open nautilus", group = "launcher"}),
     awful.key({ modkey, "Shift" },  "s",     function ()
-        awful.util.spawn("flameshot gui") end,
+        -- awful.util.spawn("flameshot gui") end,
+        awful.util.spawn_with_shell("/home/mehrunes/customScripts/screen") end,
               {description = "screenshot selected area", group = "launcher"}),
     awful.key({ modkey, "Shift" },  "q",     function ()
       awful.util.spawn("/home/mehrunes/customScripts/offnutEcran.sh") end,
@@ -51,21 +70,39 @@ awful.keyboard.append_global_keybindings({
               {description = "lock screen", group = "scripts"}),
 
 
-    awful.key({  },  "Print",     function ()
-        awful.util.spawn("flameshot full -p /tmp") end,
-              {description = "screenshot full area to /tmp", group = "launcher"}),
+    -- awful.key({  },  "Print",     function ()
+    --     awful.util.spawn("flameshot full -p /tmp") end,
+    --           {description = "screenshot full area to /tmp", group = "launcher"}),
+    awful.key({ }, "Print", function () awful.util.spawn("scrot -e 'mv $f ~/Screenshots/ 2>/dev/null'", false) end),
     awful.key({ modkey, "Shift"}, 'e', function ()
         local matcher = function (c)
             return awful.rules.match(c, {class = 'Sublime_text'})
         end
         awful.client.run_or_raise('subl', matcher)
     end),
+    awful.key({ modkey, "Shift"}, 'w', function ()
+        local matcher = function (c)
+            return awful.rules.match(c, {class = 'Emacs'})
+        end
+        awful.client.run_or_raise('emacsclient -c -a \'emacs\'', matcher)
+    end),
+    -- awful.key({modkey}, "g", function () awful.util.spawn("xdotool sleep 0.25 click 3") end),
+    awful.key({modkey}, "g", function () 
+        if rmbflag then
+            root.fake_input('button_release', "3")
+            rmbflag = false
+        else
+            root.fake_input('button_press', "3") 
+            rmbflag = true
+        end
+    end),
     awful.key({ modkey, }, 'b', function ()
         local matcher = function (c)
             return awful.rules.match(c, {class = 'Chromium'})
         end
         awful.client.run_or_raise('chromium', matcher)
-    end);
+    end,
+    {description = "chromium run or raise", group = "launcher"});
 
 })
 
@@ -73,12 +110,16 @@ awful.keyboard.append_global_keybindings({
 
 -- Tags related keybindings
 awful.keyboard.append_global_keybindings({
-    awful.key({ modkey,           }, "Left",   awful.tag.viewprev,
+    awful.key({ modkey,           }, "Down",   awful.tag.viewprev,
               {description = "view previous", group = "tag"}),
-    awful.key({ modkey,           }, "Right",  awful.tag.viewnext,
+    awful.key({ modkey,           }, "Up",  awful.tag.viewnext,
               {description = "view next", group = "tag"}),
     awful.key({ modkey,           }, "Escape", awful.tag.history.restore,
               {description = "go back", group = "tag"}),
+    -- modkey+Shift+Tab: backwards
+    awful.key({ alt, }, "Tab", function(c)
+        cyclefocus.cycle({modifier="Super_L"})
+    end),
 })
 
 -- Focus related keybindings
@@ -95,13 +136,13 @@ awful.keyboard.append_global_keybindings({
         end,
         {description = "focus previous by index", group = "client"}
     ),
-    awful.key({ modkey,           }, "Down",
+    awful.key({ modkey,           }, "Right",
         function ()
             awful.client.focus.byidx( 1)
         end,
         {description = "focus next by index", group = "client"}
     ),
-    awful.key({ modkey,           }, "Up",
+    awful.key({ modkey,           }, "Left",
         function ()
             awful.client.focus.byidx(-1)
         end,
@@ -187,8 +228,10 @@ awful.keyboard.append_global_keybindings({
 	awful.key({ }, "XF86AudioLowerVolume", function() awful.spawn.with_shell("pamixer -d 3") end),
 	awful.key({ }, "XF86AudioMute", function() awful.spawn.with_shell("pamixer -t") end),
     awful.key({ },  "XF86AudioMicMute",     function ()  
-        awful.util.spawn("pactl set-source-mute @DEFAULT_SOURCE@ toggle") end,
+        awful.util.spawn("pactl set-source-mute @DEFAULT_SOURCE@ toggle")
+        awesome.emit_signal("signal::mic") end,
               {description = "mute mic", group = "laptop"}),
+     awful.key({modkey}, "s", revelation)
 })
 
 -- Brightness
@@ -200,7 +243,7 @@ awful.keyboard.append_global_keybindings({
 
 
 awful.keyboard.append_global_keybindings({
-	awful.key({ alt }, "x", function() awesome.emit_signal("ui::powermenu:open") end)
+	awful.key({ modkey }, "x", function() awesome.emit_signal("ui::powermenu:open") end)
 })
 
 
@@ -339,3 +382,25 @@ client.connect_signal("request::default_keybindings", function()
         -- end
     })
 end)
+
+local lain = require("lain")
+local quake = lain.util.quake()
+local flag = -1
+awful.keyboard.append_global_keybindings({
+        awful.key({ modkey, }, "n", 
+            function () 
+                for _, t in pairs(awful.screen.focused().tags) do
+                    lain.util.useless_gaps_resize(flag*20, awful.screen.focused(), t) 
+                end
+                flag = flag * -1
+            end,
+            {description = "increase gap", group = "layout"}),
+        awful.key({ modkey, "Control" }, "=", function () lain.util.useless_gaps_resize(20) end,
+            {description = "increase gaps", group = "customise"}),
+        awful.key({ modkey, "Control" }, "-", function () lain.util.useless_gaps_resize(-20) end,         
+            {description = "decrease gaps", group = "customise"}),
+        awful.key({ modkey, "Control" }, "z", function () quake:toggle() end,         
+            {description = "decrease gaps", group = "customise"}),
+
+})
+

@@ -19,7 +19,7 @@ ruled.client.connect_signal("request::rules", function()
     ruled.client.append_rule {
         id       = "floating",
         rule_any = {
-            instance = { "copyq", "pinentry" },
+            instance = { "copyq", "pinentry", "xev" },
             class    = {
                 "Arandr", "Blueman-manager", "Gpick", "Kruler", "Sxiv",
                 "Tor Browser", "Wpa_gui", "veromix", "xtightvncviewer"
@@ -60,4 +60,13 @@ ruled.client.connect_signal("request::rules", function()
           tag = screen[1].tags[1]
         }
     }
+    ruled.client.append_rule {
+        rule       = {  class = "run_menu"     },
+        properties = { 
+            floating = true,
+            placement = awful.placement.bottom_right,
+            width = 1000,
+        }
+    }
+
 end)
