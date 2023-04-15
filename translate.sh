@@ -7,6 +7,7 @@ mv ~/.config/picom ~/.config/picom__
 mv ~/.config/rofi ~/.config/rofi__
 mv ~/.config/starship.toml ~/.config/starship.toml__
 mv ~/.config/i3 ~/.config/i3__
+mv ~/.config/nvim ~/.config/nvim__
 
 ln -s ~/d0t/awesome ~/.config/awesome
 ln -s ~/d0t/awesome_new ~/.config/awesome_new
@@ -16,4 +17,5 @@ ln -s ~/d0t/picom ~/.config/picom
 ln -s ~/d0t/rofi ~/.config/rofi
 ln -s ~/d0t/rofi_new ~/.config/rofi_new
 ln -s ~/d0t/starship.toml ~/.config/starship.toml
+ln -s ~/d0t/nvim ~/.config/nvim
 
