@@ -22,8 +22,11 @@ screen.connect_signal("request::desktop_decoration", function(s)
 		widget = wibox.widget.textbox,
 	}
 
+
 	local icon = wibox.widget {
 		-- markup = "<span foreground='" .. beautiful.magenta .. "'></span>",
+		markup = "<span foreground='" .. beautiful.magenta .. "'>❆</span>",
+		-- font = "dsad 20",
 		widget = wibox.widget.textbox,
 	}
 
@@ -46,7 +49,7 @@ screen.connect_signal("request::desktop_decoration", function(s)
 	local set_clock = function() -- Update the value of the clock
 		-- _ = os.date("%H-3:%M")
 		hours = os.date("%H")
-		hours = hours - 3
+		hours = hours - 0 -- convert to number
 		if hours < 0 then
 			hours = hours + 24
 		end
@@ -95,7 +98,8 @@ screen.connect_signal("request::desktop_decoration", function(s)
 				{
 					id = "vol_icon",
 					markup = "<span foreground='" .. beautiful.blue .. "'></span>",
-                			widget = wibox.widget.textbox,
+                	widget = wibox.widget.textbox,
+					font = "30"
 				},
 				{
 					id = "value",
@@ -117,20 +121,23 @@ screen.connect_signal("request::desktop_decoration", function(s)
 
 	awesome.connect_signal("signal::volume", function(vol,mute)
 		-- os.execute("sleep " .. tonumber(5)) всё равно уведомление об ошибке
-		volume.container.vol_layout.value.markup = "<span foreground='" .. beautiful.blue .. "'>" .. vol .. "%</span>"
+		volume.container.vol_layout.value.markup = "<span foreground='" .. beautiful.blue .."'>" .. vol .. "%</span>"
 
-		if mute or vol == 0 then
-			volume.container.vol_layout.vol_icon.markup = "<span foreground='" .. beautiful.blue .. "'></span>"
+		if mute then
+			volume.container.vol_layout.vol_icon.markup = "<span foreground='" .. beautiful.blue .. "'>󰸈</span>"
 		else
-			if tonumber(vol) > 79 then
-				volume.container.vol_layout.vol_icon.markup = "<span foreground='" .. beautiful.blue .. "'></span>"
+			if tonumber(vol) > 49 then
+				volume.container.vol_layout.vol_icon.markup = "<span foreground='" .. beautiful.blue .. "'>󰕾</span>"
 			elseif tonumber(vol) >= 1 then
-				volume.container.vol_layout.vol_icon.markup = "<span foreground='" .. beautiful.blue .. "'></span>"
+				volume.container.vol_layout.vol_icon.markup = "<span foreground='" .. beautiful.blue .. "'>󰖀</span>"
 			else
-				volume.container.vol_layout.vol_icon.markup = "<span foreground='" .. beautiful.blue .. "'></span>"
+				volume.container.vol_layout.vol_icon.markup = "<span foreground='" .. beautiful.blue .. "'>󰕿</span>"
 			end
 		end
 	end)
+
+	-- Mic
+
 	local mic = wibox.widget {
 		widget = wibox.widget.textbox,
 		text = 'yes',
@@ -151,7 +158,8 @@ screen.connect_signal("request::desktop_decoration", function(s)
 				{
 					id = "bri_icon",
                                         markup = "<span foreground='" .. beautiful.yellow .. "'></span>",
-                                        widget = wibox.widget.textbox
+                                        widget = wibox.widget.textbox,
+										font = "20"
 				},
 				{
 					id = "value",
@@ -174,11 +182,12 @@ screen.connect_signal("request::desktop_decoration", function(s)
 	awesome.connect_signal("signal::brightness", function(bri)
 
 		_ = tostring(bri)
-		bri_val = _:match("(%d+)[.]")
+		-- bri_val = _:match("(%d+)[.]")
+		bri_val = _:match("(%d+)")
 
 		bright.container.bri_layout.value.markup = "<span foreground='" .. beautiful.yellow .. "'>" .. bri_val .."%</span>"
 
-		bright.container.bri_layout.bri_icon.markup = "<span foreground='" .. beautiful.yellow .. "'></span>"
+		bright.container.bri_layout.bri_icon.markup = "<span foreground='" .. beautiful.yellow .. "'></span>"
         end)
 
 	-- Wifi
@@ -189,7 +198,8 @@ screen.connect_signal("request::desktop_decoration", function(s)
                                 {
                                         id = "wifi_icon",
                                         markup = "<span foreground='" .. beautiful.red .. "'></span>",
-                                        widget = wibox.widget.textbox
+                                        widget = wibox.widget.textbox,
+										font = "20"
                                 },
 				{
                                         id = "ssid",
@@ -215,50 +225,15 @@ screen.connect_signal("request::desktop_decoration", function(s)
 		net_ssid = ssid:match(".[^:]+")
 
 		if not stat then
-			wifi.container.wifi_layout.wifi_icon.markup = "<span foreground='" .. beautiful.red .. "'></span>"
+			wifi.container.wifi_layout.wifi_icon.markup = "<span foreground='" .. beautiful.red .. "'>󰖩</span>"
 			wifi.container.wifi_layout.ssid.markup = "<span foreground='" .. beautiful.red .. "'>".. net_ssid .."</span>"
 		else
-			wifi.container.wifi_layout.wifi_icon.markup = "<span foreground='" .. beautiful.green .. "'></span>"
+			wifi.container.wifi_layout.wifi_icon.markup = "<span foreground='" .. beautiful.green .. "'>󰖩</span>"
 			wifi.container.wifi_layout.ssid.markup = "<span foreground='" .. beautiful.green .. "'>".. net_ssid .."</span>"
 			-- wifi.container.wifi_layout.ssid.markup = "<span foreground='" .. beautiful.green .. "'>".. "CN" .."</span>"
 		end
 	end)
 
-	-- Music
-	
-	local music = wibox.widget {
-		{
-			{
-				{
-					id = 'icon',
-					markup = "<span foreground='" .. beautiful.orange .. "'></span>",
-					widget = wibox.widget.textbox,	
-				},
-				{
-                                        id = 'title',
-                                        markup = "",
-                                        widget = wibox.widget.textbox,
-                                },
-				spacing = dpi(4),
-				layout = wibox.layout.fixed.horizontal,
-			},
-			margins = dpi(4),
-			widget = wibox.container.margin,
-		},
-		shape = function(cr,w,h) gears.shape.rounded_rect(cr,w,h,5) end,
-		bg = beautiful.bar,
-		widget = wibox.container.background,
-	}
-
-	awesome.connect_signal("signal::song", function(song, stat)
-		local cur_song = tostring(song)
-
-		if stat then
-			music:get_children_by_id("title")[1].markup = "<span foreground='" .. beautiful.orange .. "'>" .. cur_song .. "</span>"
-		else
-			music:get_children_by_id("title")[1].markup = "<span foreground='" .. beautiful.taglist_fg_empty .. "'>" .. cur_song .. "</span>"
-		end
-	end)
 
 	-- Info
 
@@ -415,6 +390,7 @@ screen.connect_signal("request::desktop_decoration", function(s)
 
 	-- simple widgets
 	local battery = awful.widget.watch('bash -c "acpi | awk \'{print $4, $5}\'"', 60)
+  -- local blue = awful.widget.watch('/home/byakuya/.local/bin/customScripts/rofi-bluetooth --status')
 	local mykeyboardlayout = awful.widget.keyboardlayout()
 
 
@@ -423,6 +399,7 @@ screen.connect_signal("request::desktop_decoration", function(s)
 			{
 				tag,
 				battery,
+        blue,
 				-- music,
 				spacing = dpi(30),
 				spacing_widget = {
@@ -434,6 +411,7 @@ screen.connect_signal("request::desktop_decoration", function(s)
 					widget = wibox.container.margin,
 				},
 				layout = wibox.layout.fixed.horizontal,
+				layoutbox,
 				mic,
 				-- wibox.widget.textbox("                                              "),
 			},

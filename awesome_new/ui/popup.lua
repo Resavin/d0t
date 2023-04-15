@@ -114,16 +114,19 @@ awesome.connect_signal("signal::volume", function(vol,mute)
 		popup.visible = true
 		name.markup = "volume"
 		progress.color = beautiful.blue
+    -- icon.font = "60"
 
 		if mute or vol == 0 then
 			progress.value = vol
-			icon.markup = ""
+			icon.markup = "󰸈"
 		else
 			progress.value = vol
-			if vol >= 75 then
-				icon.markup = ""
+			if vol > 49 then
+				icon.markup = "󰕾"
+			elseif vol >= 1 then
+				icon.markup = "󰖀"
 			else
-				icon.markup = ""
+				icon.markup = "󰕿"
 			end
 		end
 
@@ -146,7 +149,8 @@ awesome.connect_signal("signal::brightness", function(bri)
 		progress.value = bri
 		progress.color = beautiful.yellow
 		name.markup = "Brightness"
-		icon.markup = ""
+		icon.markup = "󰖨"
+    -- icon.font = "60"
 
 		if popup.visible then
 			timeout:again()

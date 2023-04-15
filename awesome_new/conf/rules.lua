@@ -25,6 +25,7 @@ ruled.client.connect_signal("request::rules", function()
                 "Tor Browser", "Wpa_gui", "veromix", "xtightvncviewer"
             },
             name    = {
+                "OpenGL",
                 "Event Tester",  -- xev.
             },
             role    = {

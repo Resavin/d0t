@@ -20,57 +20,69 @@ require("awful.hotkeys_popup.keys")
 
 -- Error Handling
 naughty.connect_signal("request::display_error", function(message, startup)
-    naughty.notification {
-        urgency = "critical",
-        title   = "Oops, an error happened"..(startup and " during startup!" or "!"),
-        message = message
-    }
+	naughty.notification({
+		urgency = "critical",
+		title = "Oops, an error happened" .. (startup and " during startup!" or "!"),
+		message = message,
+	})
 end)
 
-require "signals.init"
-require "conf.init"
-require "ui.init"
+require("signals.init")
+require("conf.init")
+require("ui.init")
 
 -- Wallpaper
 screen.connect_signal("request::wallpaper", function(s)
-    awful.wallpaper {
-        screen = s,
-        widget = {
-            {
-                image     = beautiful.wallpaper,
-                upscale   = true,
-                downscale = true,
-                widget    = wibox.widget.imagebox,
-            },
-            valign = "center",
-            halign = "center",
-            tiled  = false,
-            widget = wibox.container.tile,
-        }
-    }
+	awful.wallpaper({
+		screen = s,
+		widget = {
+			{
+				image = beautiful.wallpaper,
+				upscale = true,
+				downscale = true,
+				horizontal_fit_policy = "fit",
+				vertical_fit_policy = "fit",
+				widget = wibox.widget.imagebox,
+			},
+			valign = "center",
+			halign = "center",
+			tiled = false,
+			widget = wibox.container.tile,
+		},
+	})
+	-- awful.wallpaper({
+	-- 	screen = s,
+	-- 	widget = {
+	-- 		downscale = true,
+	-- 		-- horizontal_fit_policy = "fit",
+	-- 		-- vertical_fit_policy = "fit",
+	-- 		image = beautiful.wallpaper,
+	-- 		widget = wibox.widget.imagebox,
+	-- 	},
+	-- })
 end)
 
 -- Mouse bindings
 awful.mouse.append_global_mousebindings({
-    -- awful.button({ }, 3, function () mainmenu:toggle() end),
-    -- awful.button({ }, 4, awful.tag.viewprev),
-    -- awful.button({ }, 5, awful.tag.viewnext),
+	-- awful.button({ }, 3, function () mainmenu:toggle() end),
+	-- awful.button({ }, 4, awful.tag.viewprev),
+	-- awful.button({ }, 5, awful.tag.viewnext),
 })
 
 -- Notifications
 
-ruled.notification.connect_signal('request::rules', function()
-    ruled.notification.append_rule {
-        rule       = { },
-        properties = {
-            screen           = awful.screen.preferred,
-            implicit_timeout = 5,
-        }
-    }
+ruled.notification.connect_signal("request::rules", function()
+	ruled.notification.append_rule({
+		rule = {},
+		properties = {
+			screen = awful.screen.preferred,
+			implicit_timeout = 5,
+		},
+	})
 end)
 
 naughty.connect_signal("request::display", function(n)
-    naughty.layout.box { notification = n }
+	naughty.layout.box({ notification = n })
 end)
 
 -- Swallowing
@@ -106,7 +118,7 @@ end)
 --         parent_client.minimized = true
 
 --         c:connect_signal("unmanage", function() parent_client.minimized = false end)
-        
+
 --         c.floating=true
 --         c.floating=false
 --         copy_size(c, parent_client)

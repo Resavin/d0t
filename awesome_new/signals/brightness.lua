@@ -20,6 +20,8 @@ local brightness_max = [[
    brightnessctl m 
 "]]
 
+-- Magic: if emitting signal not in "stdout" function then it doesn't work. 
+-- You can delete stdout from this function and stdout on the 44th line will work
 local emit_brightness_info = function()
     awful.spawn.with_line_callback(brightness_script, {
         stdout = function(value)
@@ -39,7 +41,7 @@ emit_brightness_info()
 awful.spawn.easy_async_with_shell("ps x | grep \"inotifywait -e modify /sys/class/backlight\" | grep -v grep | awk '{print $1}' | xargs kill", function ()
     -- Update brightness status with each line printed
     awful.spawn.with_line_callback(brightness_subscribe_script, {
-        stdout = function(_)
+        stdout = function(_) -- don't know why _ is here
             emit_brightness_info()
         end
     })

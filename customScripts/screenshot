@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+DATE=`date +"%Y-%m-%d"`
+TIME=`date +"%H-%M-%S"`
+cd ~/Screenshots
+mkdir "$DATE"
+cd $DATE
+import $TIME.png
+xclip -selection clipboard -t image/png -i $TIME.png
+
+# by Misha Chuzov (edvin (qberik))
+

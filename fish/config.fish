@@ -1,12 +1,12 @@
 ## Set values
 # Hide welcome message
 set fish_greeting
-set VIRTUAL_ENV_DISABLE_PROMPT "1"
+set VIRTUAL_ENV_DISABLE_PROMPT 1
 set -x MANPAGER "sh -c 'col -bx | bat -l man -p'"
 
 ## Export variable need for qt-theme
-if type "qtile" >> /dev/null 2>&1
-   set -x QT_QPA_PLATFORMTHEME "qt5ct"
+if type qtile >>/dev/null 2>&1
+    set -x QT_QPA_PLATFORMTHEME qt5ct
 end
 
 # Set settings for https://github.com/franciscolourenco/done
@@ -17,7 +17,7 @@ set -U __done_notification_urgency_level low
 ## Environment setup
 # Apply .profile: use this to put fish compatible .profile stuff in
 if test -f ~/.fish_profile
-  source ~/.fish_profile
+    source ~/.fish_profile
 end
 
 #Add DOOOOOOOOOOOOOOM
@@ -49,10 +49,11 @@ if test -d ~/customScripts
 end
 
 # Starship prompt
-if status --is-interactive
-    source ("/usr/bin/starship" init fish --print-full-init | psub)
-    starship init fish | source
-end
+#if status --is-interactive
+#    source ("/usr/bin/starship" init fish --print-full-init | psub)
+starship init fish | source
+zoxide init fish | source
+#end
 
 ## Advanced command-not-found hook
 #source /usr/share/doc/find-the-command/ftc.fish
@@ -60,30 +61,31 @@ end
 ## Functions
 # Functions needed for !! and !$ https://github.com/oh-my-fish/plugin-bang-bang
 function __history_previous_command
-  switch (commandline -t)
-  case "!"
-    commandline -t $history[1]; commandline -f repaint
-  case "*"
-    commandline -i !
-  end
+    switch (commandline -t)
+        case "!"
+            commandline -t $history[1]
+            commandline -f repaint
+        case "*"
+            commandline -i !
+    end
 end
 
 function __history_previous_command_arguments
-  switch (commandline -t)
-  case "!"
-    commandline -t ""
-    commandline -f history-token-search-backward
-  case "*"
-    commandline -i '$'
-  end
+    switch (commandline -t)
+        case "!"
+            commandline -t ""
+            commandline -f history-token-search-backward
+        case "*"
+            commandline -i '$'
+    end
 end
 
-if [ "$fish_key_bindings" = fish_vi_key_bindings ];
-  bind -Minsert ! __history_previous_command
-  bind -Minsert '$' __history_previous_command_arguments
+if [ "$fish_key_bindings" = fish_vi_key_bindings ]
+    bind -Minsert ! __history_previous_command
+    bind -Minsert '$' __history_previous_command_arguments
 else
-  bind ! __history_previous_command
-  bind '$' __history_previous_command_arguments
+    bind ! __history_previous_command
+    bind '$' __history_previous_command_arguments
 end
 
 # Fish command history
@@ -99,8 +101,8 @@ end
 function copy
     set count (count $argv | tr -d \n)
     if test "$count" = 2; and test -d "$argv[1]"
-	set from (echo $argv[1] | trim-right /)
-	set to (echo $argv[2])
+        set from (echo $argv[1] | trim-right /)
+        set to (echo $argv[2])
         command cp -r $from $to
     else
         command cp $argv
@@ -112,10 +114,10 @@ end
 alias ls='exa --color=always --group-directories-first --icons' # preferred listing
 alias lsf='exa | fzf' # preferred listing
 #alias ls='exa -al --color=always --group-directories-first --icons' # preferred listing
-alias la='exa -al --color=always --group-directories-first --icons'  # all files and dirs
-alias ll='exa -l --color=always --group-directories-first --icons'  # long format
+alias la='exa -al --color=always --group-directories-first --icons' # all files and dirs
+alias ll='exa -l --color=always --group-directories-first --icons' # long format
 alias lt='exa -aT --color=always --group-directories-first --icons' # tree listing
-alias l.="exa -a | egrep '^\.'"                                     # show only dotfiles
+alias l.="exa -a | egrep '^\.'" # show only dotfiles
 alias ip="ip -color"
 
 # Replace some more things with better alternatives
@@ -142,9 +144,9 @@ alias vdir='vdir --color=auto'
 alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
-alias hw='hwinfo --short'                                   # Hardware Info
-alias big="expac -H M '%m\t%n' | sort -h | nl"              # Sort installed packages according to size in MB
-alias gitpkg='pacman -Q | grep -i "\-git" | wc -l'			# List amount of -git packages
+alias hw='hwinfo --short' # Hardware Info
+alias big="expac -H M '%m\t%n' | sort -h | nl" # Sort installed packages according to size in MB
+alias gitpkg='pacman -Q | grep -i "\-git" | wc -l' # List amount of -git packages
 
 #customAliases
 alias pac='sudo pacman'
@@ -155,18 +157,21 @@ alias update-grub="~/customScripts/grub.sh"
 alias off="~/customScripts/offnutEcran.sh"
 alias wpa="~/customScripts/wpa"
 alias lvim="~/.local/bin/lvim"
-alias wgoff="sudo systemctl stop wg-quick@Resavin_linux"
-alias wgon="sudo systemctl start wg-quick@Resavin_linux"
+alias wgoff="wg-quick down /home/byakuya/wgL.conf"
+alias wgon="wg-quick up /home/byakuya/wgL.conf"
 alias "gcd"="git clone --depth 1"
+alias "re"="sudo nixos-rebuild switch"
+#alias "cv"="sudoedit /etc/nixos/configuration.nix"
+alias "cv"="sudo subl -a /etc/nixos/configuration.nix"
+alias "cf"="vim ~/.config/fish/config.fish"
 
 #one-letter-aliasses (qberik)
-alias unrar='unar' 
-alias z='zathura'
+alias unrar='unar'
+#alias z='zathura'
 alias p='python3'
 alias f='feh'
 
-alias v='vim'
-alias vim='nvim'
+alias v='nvim'
 
 # Get fastest mirrors
 alias mirror="sudo reflector -f 30 -l 30 --number 10 --verbose --save /etc/pacman.d/mirrorlist"
@@ -193,9 +198,9 @@ alias rip="expac --timefmt='%Y-%m-%d %T' '%l\t%n %v' | sort | tail -200 | nl"
 
 ## Run neofetch if session is interactive
 if status --is-interactive && type -q bunnyfetch
-   starfetch
-   bunnyfetch
-   ## hilbish
+    starfetch
+    bunnyfetch
+    ## hilbish
 end
 
 set -gx MCFLY_RESULTS 25

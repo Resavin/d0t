@@ -4,10 +4,10 @@ local gears = require "gears"
 local old_net_ssid = "Reconnect"
 local old_net_stat = false
 
-        -- wpa_cli status -t connection show --active
+        -- wpa_cli  status | grep ssid -w | cut -d"=" -f2
 local check_wifi = function()
 	local script = [[
-        wpa_cli  status | grep ssid -w | cut -d"=" -f2
+        nmcli -t connection show --active
         
         ]]
 

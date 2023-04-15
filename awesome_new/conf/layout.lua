@@ -20,7 +20,7 @@ end)
 
 awful.layout.layouts = {
 	l.tile,
-	-- l.floating,
+	l.floating,
 	-- l.tile.bottom,
     l.fair,
 }
