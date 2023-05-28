@@ -1,0 +1,49 @@
+import os
+import keyboard
+import subprocess
+import time
+import notify2
+# Directory path where the wallpaper files are stored
+wallpaper_directory = "/home/byakuya/Pictures/Cats"
+
+# List to store the wallpaper file names
+wallpaper_list = []
+file_name_list = []
+
+# Populate the wallpaper_list with file names from the directory
+for file_name in sorted(os.listdir(wallpaper_directory)):
+    if file_name.lower().endswith((".jpg", ".jpeg", ".png")):
+        wallpaper_list.append(os.path.join(wallpaper_directory, file_name))
+        file_name_list.append(file_name)
+
+# Index to keep track of the current wallpaper in the list
+current_wallpaper_index = 0
+is_listening = True
+# Function to change the wallpaper
+notify2.init("Test")
+notice = notify2.Notification(file_name_list[current_wallpaper_index-1])
+notice.timeout = 1000
+def change_wallpaper():
+    global is_listening
+    if is_listening:
+        global current_wallpaper_index
+        wallpaper_path = wallpaper_list[current_wallpaper_index]
+        subprocess.run(["feh", "--bg-fill", wallpaper_path])
+        current_wallpaper_index = (current_wallpaper_index + 1) % len(wallpaper_list)
+        notice.update(file_name_list[current_wallpaper_index-1])
+        notice.show()
+        is_listening = False
+        # time.sleep(1)
+        is_listening = True
+
+# Keyboard event handler
+def on_key_event(event):
+    if event.name == "right" and event.event_type == "down":
+        change_wallpaper()
+
+# Register the keyboard event handler for the Win+; combination
+keyboard.add_hotkey("win+;", change_wallpaper)
+
+# Start listening for keyboard events
+keyboard.wait()
+

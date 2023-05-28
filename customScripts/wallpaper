@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+# Set the path to your wallpaper folder
+wallpaper_folder="/home/byakuya/Pictures/Cats"
+
+# Get the current wallpaper
+current_wallpaper=$(cat ~/.fehbg | awk '{print $4}' | sed 's/"//g' | sed "s/'//g")
+
+# Get the next wallpaper in the folder
+next_wallpaper=$(find "$wallpaper_folder" -type f -iregex '.*\.\(jpg\|jpeg\|png\|gif\)' | sort | grep -A 1 "$current_wallpaper" | tail -n 1)
+echo $current_wallpaper
+echo $next_wallpaper
+
+# If there is no next wallpaper, cycle back to the first one
+if [ $current_wallpaper == "$next_wallpaper" ]; then
+    next_wallpaper=$(find "$wallpaper_folder" -type f -iregex '.*\.\(jpg\|jpeg\|png\|gif\)' | sort | head -n 1)
+fi
+
+# Set the next wallpaper as the current one
+feh --bg-fill "$next_wallpaper"
+

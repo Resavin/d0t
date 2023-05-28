@@ -6,6 +6,7 @@ local theme_assets = require("beautiful.theme_assets")
 local xresources = require("beautiful.xresources")
 local rnotification = require("ruled.notification")
 local dpi = xresources.apply_dpi
+local wibox = require("wibox")
 
 local gfs = require("gears.filesystem")
 local themes_path = gfs.get_configuration_dir() .. "themes/"
@@ -15,9 +16,8 @@ local beautiful = require("beautiful")
 local theme = {}
 
 -- theme.wallpaper = gfs.get_configuration_dir() .. "themes/mansion.jpg"
--- theme.wallpaper = gfs.get_configuration_dir() .. "themes/spring_cropped.jpg"
 -- theme.wallpaper = walls_path .. "spring_cropped.jpg"
-theme.wallpaper = walls_path .. "lucy.png"
+theme.wallpaper = walls_path .. "cat.jpg"
 
 ---- Font -----
 theme.font = "Iosevka Nerd Font Mono 14"
@@ -172,8 +172,19 @@ theme.layout_cornerse = themes_path .. "default/layouts/cornersew.png"
 -- Set different colors for urgent notifications.
 rnotification.connect_signal("request::rules", function()
 	rnotification.append_rule({
-		rule = { urgency = "critical" },
-		properties = { bg = "#ff0000", fg = "#ffffff" },
+		-- rule = { urgency = "critical" },
+		-- properties = { bg = "#ff0000", fg = "#ffffff" },
+		-- opacity = 0,
+		properties = {
+			widget_template = {
+				wibox.widget.textbox("fsd"),
+				forced_height = 48,
+				halign = "center",
+				valign = "center",
+				widget = wibox.container.place,
+			},
+			opacity = 0.1,
+		},
 	})
 end)
 

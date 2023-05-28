@@ -13,6 +13,8 @@ end
 set -U __done_min_cmd_duration 10000
 set -U __done_notification_urgency_level low
 
+# EDITOR (<C-e>)
+set EDITOR nvim
 
 ## Environment setup
 # Apply .profile: use this to put fish compatible .profile stuff in
@@ -204,3 +206,4 @@ if status --is-interactive && type -q bunnyfetch
 end
 
 set -gx MCFLY_RESULTS 25
+mcfly init fish | source

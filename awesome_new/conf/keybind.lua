@@ -85,6 +85,9 @@ awful.keyboard.append_global_keybindings({
 	awful.key({ modkey, "Control" }, "s", function()
 		awful.util.spawn_with_shell("feh -r --reverse ~/Screenshots/")
 	end, { description = "show last screenshot", group = "scripts" }),
+	-- awful.key({ modkey  }, ";", function()
+	-- 	awful.util.spawn_with_shell("feh --randomize --bg-fill ~/Pictures/Cats/*")
+	-- end, { description = "show last screenshot", group = "scripts" }),
 
 	awful.key({ modkey, "Shift" }, "q", function()
 		awful.util.spawn("/home/mehrunes/customScripts/offnutEcran.sh")
@@ -237,12 +240,13 @@ awful.keyboard.append_global_keybindings({
 	awful.key({ modkey }, "h", function()
 		awful.tag.incmwfact(-0.05)
 	end, { description = "decrease master width factor", group = "layout" }),
-	awful.key({ modkey, "Shift" }, "h", function()
-		awful.tag.incnmaster(1, nil, true)
-	end, { description = "increase the number of master clients", group = "layout" }),
-	awful.key({ modkey, "Shift" }, "l", function()
-		awful.tag.incnmaster(-1, nil, true)
-	end, { description = "decrease the number of master clients", group = "layout" }),
+	-- Фигня
+	-- awful.key({ modkey, "Shift" }, "h", function()
+	-- 	awful.tag.incnmaster(1, nil, true)
+	-- end, { description = "increase the number of master clients", group = "layout" }),
+	-- awful.key({ modkey, "Shift" }, "l", function()
+	-- 	awful.tag.incnmaster(-1, nil, true)
+	-- end, { description = "decrease the number of master clients", group = "layout" }),
 	-- Two next binds I don't understand or like
 	-- awful.key({ modkey, "Control" }, "h", function()
 	-- 	awful.tag.incncol(1, nil, true)

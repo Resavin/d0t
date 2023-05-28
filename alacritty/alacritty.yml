@@ -150,8 +150,20 @@ cursor:
 # `- { key: V, mods: Control|Shift, action: Paste }`
 key_bindings:
  - { key: V, mods: Control, action: Paste }
+ - { key: C, mods: Control, action: Copy }
+ - { key: C, mods: Control,  chars: "\x03"}
+    
  # - { key: V, mods: Control, action: Paste }
  # - { key: Back, mods: Control, action: Paste }
 # key_bindings:
 #   - { key: Left,      mods: Control, chars: "\x1b[15c"                   }
 #   - { key: Right,    mods: Control, chars: "\e\\[C"                   }
+
+
+# Background opacity
+#
+# Window opacity as a floating point number from `0.0` to `1.0`.
+# The value `0.0` is completely transparent and `1.0` is opaque.
+window_opacity: 0.6
+opacity: 0.6
+

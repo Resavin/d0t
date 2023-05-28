@@ -9,7 +9,7 @@ local awful = require("awful")
 require("awful.autofocus")
 local wibox = require("wibox")
 local beautiful = require("beautiful")
-local naughty = require("naughty")
+-- local naughty = require("naughty")
 local ruled = require("ruled")
 local menubar = require("menubar")
 local hotkeys_popup = require("awful.hotkeys_popup")
@@ -17,7 +17,9 @@ local gfs = require("gears.filesystem")
 -- Enable hotkeys help widget for VIM and other apps
 -- when client with a matching name is opened:
 require("awful.hotkeys_popup.keys")
-
+local _dbus = dbus; dbus = nil
+local naughty = require("naughty")
+dbus = dbus
 -- Error Handling
 naughty.connect_signal("request::display_error", function(message, startup)
 	naughty.notification({
@@ -26,6 +28,7 @@ naughty.connect_signal("request::display_error", function(message, startup)
 		message = message,
 	})
 end)
+-- package.loaded["naughty.dbus"] = {}
 
 require("signals.init")
 require("conf.init")

@@ -56,5 +56,21 @@ require("everblush").setup({
     contrast = true,
   },
 })
-require("dap")
+-- dap = require("dap")
+-- dap.configurations.python = {
+--   {
+--     type = "python",
+--     request = "launch",
+--     name = "Launch file",
+--     program = "${file}",
+--     pythonPath = function()
+--       -- return "/usr/bin/python"
+--       return "python"
+--     end,
+--   },
+-- }
+-- require("dap-python").setup()
+-- require("better-comment")
 vim.cmd("colorscheme everforest")
+-- vim.cmd("highlight Normal guibg=none")
+-- vim.cmd("highlight NonText guibg=none")

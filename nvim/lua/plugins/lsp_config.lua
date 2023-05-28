@@ -11,7 +11,7 @@ return {
         severity_sort = true,
       },
       -- Automatically format on save
-      autoformat = true,
+      autoformat = false,
       -- options for vim.lsp.buf.format
       -- `bufnr` and `filter` is handled by the LazyVim formatter,
       -- but can be also overridden when specified
@@ -22,6 +22,7 @@ return {
       -- LSP Server Settings
       ---@type lspconfig.options
       servers = {
+        phpactor = {},
         jsonls = {},
         lua_ls = {
           mason = false, -- set to false if you don't want this server to be installed with mason

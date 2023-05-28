@@ -148,7 +148,7 @@ map("n", "<leader><tab>d", "<cmd>tabclose<cr>", { desc = "Close Tab" })
 map("n", "<leader><tab>[", "<cmd>tabprevious<cr>", { desc = "Previous Tab" })
 
 ----------------- MY KEYMAPS -----------------
-map("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
+-- map("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 map("n", "x", "\"_x", {desc = "Do not yank with x"})
 map("n", "<S-q>", "<cmd>qa<cr>", { desc = "Quit all" })
 -- If you specify keybindings in plugin configuration then it will be shown in lazy.nvim window

@@ -13,14 +13,15 @@ terminal = "alacritty"
 editor = os.getenv("EDITOR") or "nvim"
 editor_cmd = terminal .. " -e " .. editor
 
-local startup_script = [[
-killall picom &
-picom --config $HOME/.config/picom/picom.conf &
-xset r rate 200 15 &
-redshift -x &
-killall .redshift-wrapp &
-redshift &
--- microsoft-edge &
-]]
+-- local startup_script = [[
+-- killall picom &
+-- xset r rate 200 15 &
+-- picom --config $HOME/.config/picom/picom.conf &
+-- redshift -x &
+-- killall .redshift-wrapp &
+-- redshift &
+-- sudo python /home/byakuya/.local/bin/customScripts/pywall &
+-- -- microsoft-edge &
+-- ]]
 
 awful.spawn.with_shell(startup_script)
