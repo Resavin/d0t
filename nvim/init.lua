@@ -71,6 +71,6 @@ require("everblush").setup({
 -- }
 -- require("dap-python").setup()
 -- require("better-comment")
-vim.cmd("colorscheme everforest")
--- vim.cmd("highlight Normal guibg=none")
--- vim.cmd("highlight NonText guibg=none")
+vim.cmd("colorscheme oceanic_material")
+vim.cmd("highlight Normal guibg=none")
+vim.cmd("highlight NonText guibg=none")

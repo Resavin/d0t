@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+xset r rate 200 15 &
+picom --config $HOME/.config/picom/picom.conf &
+redshift &
+sudo dunst -config /home/byakuya/.config/dunst/dunstrc & 
+sudo python /home/byakuya/.local/bin/customScripts/pywall &
+# microsoft-edge &
+
+### Kill
+# killall picom &
+# redshift -x &
+# killall .redshift-wrapp &

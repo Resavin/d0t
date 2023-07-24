@@ -1,0 +1,7 @@
+# xrandr --output HDMI-A-0 --auto --pos 1920x1080 --scale 1x1 --output eDP --auto --scale 1x1 --pos 1920x1080
+# xrandr --output HDMI-A-0 --auto --pos 1920x1080 --scale 1x1 --output eDP --off
+# xrandr --output HDMI-A-0 --auto --output eDP --auto
+xrandr --output HDMI-A-0 --auto --output eDP --off
+
+xinput set-prop 'Logitech G403 Prodigy Gaming Mouse' 'Coordinate Transformation Matrix' 0.3 0 0 0 0.3 0 0 0 1
+xset r rate 200 15

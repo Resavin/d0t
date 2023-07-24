@@ -1,0 +1,12 @@
+Here is what I built
+
+
+cloned:
+resavin/d0t
+astronvim/astronvim
+neovim/neovim
+Iwwww/dotfiles
+vim plug for neovim
+python3 -m pip modules
+
+

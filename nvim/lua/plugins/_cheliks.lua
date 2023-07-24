@@ -13,6 +13,8 @@ return {
   { "ayu-theme/ayu-vim" },
   { "sainnhe/sonokai" },
   { "sainnhe/everforest" },
+{     'mhartington/oceanic-next' },
+  { "nvimdev/oceanic-material" },
   { "sainnhe/edge" },
   { "Djancyp/better-comments.nvim" },
   -- { "aglepnir/dashboard-nvim" },
