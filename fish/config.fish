@@ -14,7 +14,7 @@ set -U __done_min_cmd_duration 10000
 set -U __done_notification_urgency_level low
 
 # EDITOR (<C-e>)
-set EDITOR nvim
+set -Ux EDITOR nvim
 
 ## Environment setup
 # Apply .profile: use this to put fish compatible .profile stuff in
@@ -54,7 +54,6 @@ end
 #if status --is-interactive
 #    source ("/usr/bin/starship" init fish --print-full-init | psub)
 starship init fish | source
-zoxide init fish | source
 #end
 
 ## Advanced command-not-found hook
@@ -115,7 +114,6 @@ end
 # Replace ls with exa
 alias ls='exa --color=always --group-directories-first --icons' # preferred listing
 alias lsf='exa | fzf' # preferred listing
-#alias ls='exa -al --color=always --group-directories-first --icons' # preferred listing
 alias la='exa -al --color=always --group-directories-first --icons' # all files and dirs
 alias ll='exa -l --color=always --group-directories-first --icons' # long format
 alias lt='exa -aT --color=always --group-directories-first --icons' # tree listing
@@ -152,13 +150,14 @@ alias gitpkg='pacman -Q | grep -i "\-git" | wc -l' # List amount of -git package
 
 #customAliases
 alias pac='sudo pacman'
+alias z='sudo zypper install'
+alias zy='sudo zypper'
 alias fd='~/customScripts/fd'
 alias wpp="~/customScripts/wpp.sh"
 alias br="~/customScripts/bright.sh"
 alias update-grub="~/customScripts/grub.sh"
 alias off="~/customScripts/offnutEcran.sh"
 alias wpa="~/customScripts/wpa"
-alias lvim="~/.local/bin/lvim"
 alias wgoff="wg-quick down /home/byakuya/wgL.conf"
 alias wgon="wg-quick up /home/byakuya/wgL.conf"
 alias "gcd"="git clone --depth 1"
