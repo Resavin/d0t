@@ -1,3 +1,9 @@
 [submodule "kitty/kitty-themes"]
 	path = kitty/kitty-themes
 	url = https://github.com/dexpota/kitty-themes
+[submodule ".tmux/tpm"]
+	path = .tmux/tpm
+	url = https://github.com/tmux-plugins/tpm
+[submodule ".tmux/tmux-yank"]
+	path = .tmux/tmux-yank
+	url = https://github.com/tmux-plugins/tmux-yank
