@@ -5,8 +5,8 @@ local M = {}
 local highlights = require "custom.highlights"
 
 M.ui = {
-  theme = "github_light",
-  theme_toggle = { "github_light", "github_light" },
+  theme = "aquarium",
+  theme_toggle = { "aquarium", "aquarium" },
 
   hl_override = highlights.override,
   hl_add = highlights.add,
@@ -37,7 +37,7 @@ M.ui = {
     },
   },
   -- changed_themes = {
-  --   github_light = {
+  --   aquarium = {
   --     base_30 = {
   --       grey_fg = "#D3D3D3", --changed in highlights
   --     },
