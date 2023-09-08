@@ -4,8 +4,8 @@ if status --is-interactive
     # starfetch
     # bunnyfetch
     ## hilbish
-    if not set -q TMUX
-      exec tmux -2
+    if type -q tmux && not set -q TMUX
+      # exec tmux -2 
     end
     if type -q mcfly
       mcfly init fish | source

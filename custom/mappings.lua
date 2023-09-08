@@ -13,6 +13,16 @@ M.disabled = {
     ["<Tab>"] = "",
   },
 }
+M.trouble = {
+  n = {
+    ["<leader>lx"] = { function() require("trouble").toggle() end, "trouble lsp errors, warnings" },
+    ["<leader>lw"] = { function() require("trouble").toggle("workspace_diagnostics") end, "trouble " },
+    ["<leader>ld"] = { function() require("trouble").toggle("document_diagnostics") end, "trouble " },
+    ["<leader>lq"] = { function() require("trouble").toggle("quickfix") end, "trouble " },
+    ["<leader>ll"] = { function() require("trouble").toggle("loclist") end, "trouble " },
+    ["gR"        ] = { function() require("trouble").toggle("lsp_references") end, "trouble " },
+  }
+}
 M.chatgpt = {
   i = {
     -- ["A-e"] = {"<cmd> ChatGPTCompleteCode <CR> ", "chatgpt complete"}, -- don't work
@@ -82,10 +92,16 @@ M.general = {
     ["<leader>rt"] = { "<cmd>lua cargo_test()<CR>", "test rust" },
     ["<C-X>"] = { ":%s/\\r//g<CR>", "remove ^M" }, -- without second backslash before \r it would count \r as enter, I think.
     ["<C-n>"] = {"10j", "faster scrolling"},
-    ["<C-p>"] = {"10k", "faster scrolling up"}
+    ["<C-p>"] = {"10k", "faster scrolling up"},
+    ["<A-j>"] = {'ddp', "move line down"},
+    ["<A-k>"] = {'ddkP', "move line up"},
+    ["<leader>tr"] = { "<cmd>lua toggle_transparency()<CR>", "test rust" },
+
   },
   v = {
     ["Q"] = { "<cmd>qa!<CR>", "exit" },
+    ["<A-j>"] = {'dp', "move line down"},
+    ["<A-k>"] = {'dkP', "move line up"},
   },
   i = {
     ["<C-V>"] = { "<Esc>pa", "paste in insert mode" },

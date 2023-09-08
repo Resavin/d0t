@@ -1,12 +1,17 @@
 ---@type ChadrcConfig
 local M = {}
-
+vim.g.transparency = true
+function toggle_transparency()
+  vim.g.transparency = true
+  print("gleb")
+  vim.cmd('edit ~/.config/nvim/lua/custom/chadrc.lua')
+end
 -- Path to overriding theme and highlights files
 local highlights = require "custom.highlights"
 
 M.ui = {
-  theme = "aquarium",
-  theme_toggle = { "aquarium", "aquarium" },
+  theme = "tokyodark",
+  theme_toggle = { "tokyodark", "tokyodark" },
 
   hl_override = highlights.override,
   hl_add = highlights.add,
@@ -37,13 +42,13 @@ M.ui = {
     },
   },
   -- changed_themes = {
-  --   aquarium = {
+  --   tokyodark = {
   --     base_30 = {
   --       grey_fg = "#D3D3D3", --changed in highlights
   --     },
   --   },
   -- },
-  transparency = false,
+  transparency = vim.g.transparency,
   statusline = {
     separator_style = "block",
     theme = "vscode_colored",

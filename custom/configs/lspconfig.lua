@@ -9,15 +9,15 @@ local servers = { "html", "cssls", "tsserver", "clangd", "pylsp", "rust_analyzer
 
 vim.diagnostic.config {
   virtual_text = false,
-  signs = true,
+  signs = false,
   underline = false,
   update_in_insert = false,
   severity_sort = false,
 }
 -- You will likely want to reduce updatetime which affects CursorHold
 -- note: this setting is global and should be set only once
-vim.o.updatetime = 500
-vim.cmd [[autocmd! CursorHold,CursorHoldI * lua vim.diagnostic.open_float(nil, {focus=false})]]
+-- vim.o.updatetime = 500
+-- vim.cmd [[autocmd! CursorHold,CursorHoldI * lua vim.diagnostic.open_float(nil, {focus=false})]]
 
 for _, lsp in ipairs(servers) do
   lspconfig[lsp].setup {
