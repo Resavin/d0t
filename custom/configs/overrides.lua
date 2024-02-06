@@ -51,6 +51,10 @@ M.mason = {
     -- rust stuff
     "rust-analyzer",
     "rustfmt",
+
+    -- sql
+    "sqlls",
+    "sql-formatter"
   },
 }
 

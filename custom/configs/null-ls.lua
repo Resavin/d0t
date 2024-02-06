@@ -26,6 +26,9 @@ local sources = {
 
   -- rust
   b.formatting.rustfmt,
+
+  -- sql
+  b.formatting.sql_formatter,
 }
 -- local on_attach = function(client, bufnr)
 --   if client.supports_method "textDocument/formatting" then

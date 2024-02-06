@@ -1,0 +1,33 @@
+#!/bin/bash
+
+# Function to copy Java code from .java files to clipboard
+copy_java_to_clipboard() {
+    local folder_path=$1
+    local java_code=""
+
+    # Ensure the folder path is absolute
+    folder_path=$(realpath "$folder_path")
+
+    # Traverse the directory tree
+    while IFS= read -r -d '' file; do
+        # Check if the file has a .java extension
+        if [[ $file == *.java ]]; then
+            # Get the file name
+            file_name=$(basename "$file")
+
+            # Read the content of the Java file
+            java_code+="\n\n// $file_name\n\n"
+            java_code+=$(cat "$file")
+        fi
+    done < <(find "$folder_path" -type f -name "*.java" -print0)
+
+    # Copy the Java code to the clipboard
+    echo -e "$java_code" | xclip -selection clipboard
+    echo "Java code copied to clipboard."
+}
+
+# Replace 'your_folder_path' with the path to the root directory containing subdirectories with .java files
+folder_path="/home/rim/AndroidStudioProjects/Lab6/"
+
+# Call the function to copy Java code to clipboard
+copy_java_to_clipboard "$folder_path"

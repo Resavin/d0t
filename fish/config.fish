@@ -13,6 +13,9 @@ if status --is-interactive
     if type -q starship
       starship init fish | source
     end
+    if type -q pokemon-colorscripts
+      pokemon-colorscripts -r 
+    end
 end
 
 ## Set values
@@ -163,8 +166,8 @@ alias hw='hwinfo --short' # Hardware Info
 alias pac='sudo pacman'
 alias z='sudo zypper install'
 alias zy='sudo zypper'
-alias wgoff="wg-quick down /home/byakuya/wgL.conf"
-alias wgon="wg-quick up /home/byakuya/wgL.conf"
+alias wgon="wg-quick up /home/rim/wireguard/sergey_phone.conf"
+alias wgoff="wg-quick down /home/rim/wireguard/sergey_phone.conf"
 alias "gcd"="git clone --depth 1"
 # alias "re"="sudo nixos-rebuild switch"
 alias "cf"="nvim ~/.config/fish/config.fish" # something strange, just nvim doesn't work? NO, it works now
@@ -180,3 +183,5 @@ alias hx='helix'
 
 # Get the error messages from journalctl
 alias jctl="journalctl -p 3 -xb"
+
+

@@ -1,6 +1,7 @@
 local overrides = require("custom.configs.overrides")
 ---@type NvPluginSpec[]
 local plugins = {
+{ "bluz71/vim-nightfly-colors", name = "nightfly", lazy = false, priority = 1000 },
 	{
 		"folke/trouble.nvim",
 		dependencies = { "nvim-tree/nvim-web-devicons" },
