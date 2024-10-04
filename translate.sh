@@ -1,20 +1,28 @@
 #!/bin/bash
 
-mv ~/.config/awesome ~/.config/awesome__
-mv ~/.config/alacritty ~/.config/alacritty__
-mv ~/.config/fish ~/.config/fish__
-mv ~/.config/picom ~/.config/picom__
-mv ~/.config/rofi ~/.config/rofi__
-mv ~/.config/starship.toml ~/.config/starship.toml__
-mv ~/.config/i3 ~/.config/i3__
-mv ~/.config/nvim ~/.config/nvim__
+config_dir="$HOME/.config"
+dotfiles_dir="./dot-config"
+dotfiles_package="dot-config"
 
-ln -s ~/d0t/awesome ~/.config/awesome
-ln -s ~/d0t/alacritty ~/.config/alacritty
-ln -s ~/d0t/fish ~/.config/fish
-ln -s ~/d0t/rofi ~/.config/rofi
-ln -s ~/d0t/rofi_new ~/.config/rofi_new
-ln -s ~/d0t/starship.toml ~/.config/starship.toml
-ln -s ~/d0t/nvim ~/.config/nvim
-#ln -s ~/d0t/picom ~/.config/picom
+if [ -e $dotfiles_dir ]; then
+  for file in $dotfiles_dir/*; do
+      # Extract filename from the full path
+      filename=$(basename "$file")
+      full_filename="$config_dir/$filename"
+      # Check if a corresponding file exists in ~/.config
+      if [ -e "$full_filename" ]; then
+         mv "$full_filename" "$full_filename.bak"
+         echo "Backed up $full_filename"
+      fi
+  done
+  git clone https://github.com/NvChad/starter $config_dir/nvim
+  stow -t $config_dir -S $dotfiles_package
+else
+  echo "dotfiles_dir not found, check if you launch the script from d0t directory"
+fi
 
+if [ -e $HOME/.tmux.conf ] || [ -e $HOME/.tmux ]; then
+  echo "tmux is already there, not doing anything with it"
+else
+  stow -t $HOME -S tmux
+fi
